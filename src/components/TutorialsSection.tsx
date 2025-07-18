@@ -94,24 +94,24 @@ export const TutorialsSection = () => {
   };
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
+    <section className="py-16 px-4 bg-[#EDF0E0] relative overflow-hidden">
       {/* Éléments décoratifs de fond */}
-      <div className="absolute top-10 left-10 w-20 h-20 bg-blue-200/30 rounded-full blur-xl"></div>
-      <div className="absolute bottom-10 right-10 w-32 h-32 bg-purple-200/30 rounded-full blur-xl"></div>
-      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-indigo-200/40 rounded-full blur-lg"></div>
+      <div className="absolute top-10 left-10 w-20 h-20 bg-[#405B35]/10 rounded-full blur-xl"></div>
+      <div className="absolute bottom-10 right-10 w-32 h-32 bg-orange-200/30 rounded-full blur-xl"></div>
+      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-[#405B35]/10 rounded-full blur-lg"></div>
       <div className="container mx-auto relative">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Lightbulb className="h-8 w-8 text-indigo-600" />
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <Lightbulb className="h-8 w-8 text-[#405B35]" />
+            <h2 className="text-3xl md:text-4xl font-bold text-[#405B35]">
               Formations & Tutoriels
             </h2>
-            <Lightbulb className="h-8 w-8 text-purple-600" />
+            <Lightbulb className="h-8 w-8 text-orange-500" />
           </div>
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             Développez vos compétences artisanales avec nos formations complètes et nos tutoriels experts
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mt-4 rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-[#405B35] to-orange-500 mx-auto mt-4 rounded-full"></div>
         </div>
         <div className="relative">
           <Swiper
@@ -135,7 +135,7 @@ export const TutorialsSection = () => {
                 : tutorial.image;
               return (
                 <SwiperSlide key={tutorial.id}>
-                  <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-[1.03] active:scale-95 bg-white/80 backdrop-blur-sm border-white/50 rounded-2xl min-h-[420px] flex flex-col">
+                  <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden hover:scale-[1.03] active:scale-95 bg-white/90 backdrop-blur-sm border-white/50 rounded-2xl min-h-[420px] flex flex-col">
                     <div className="relative">
                       {isYoutube ? (
                         <a href={tutorial.image} target="_blank" rel="noopener noreferrer">
@@ -155,7 +155,7 @@ export const TutorialsSection = () => {
                       <Badge className={`absolute top-2 right-2 ${getLevelColor(tutorial.level)}`}>{tutorial.level}</Badge>
                     </div>
                     <CardContent className="p-4 flex flex-col flex-1">
-                      <h3 className="font-semibold text-gray-800 mb-2 group-hover:text-indigo-600 transition-colors">
+                      <h3 className="font-semibold text-[#405B35] mb-2 group-hover:text-orange-600 transition-colors">
                         {tutorial.title}
                       </h3>
                       <p className="text-sm text-gray-600 mb-3 line-clamp-2 flex-1">
@@ -174,7 +174,7 @@ export const TutorialsSection = () => {
                       <Button 
                         size="sm" 
                         onClick={() => isYoutube ? window.open(tutorial.image, '_blank') : handleStartTutorial(tutorial.id)}
-                        className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 transition-all duration-200 mt-auto"
+                        className="w-full bg-gradient-to-r from-[#405B35] to-orange-500 hover:from-[#405B35]/90 hover:to-orange-600 text-white transition-all duration-200 mt-auto"
                       >
                         Commencer le cours
                       </Button>
@@ -188,18 +188,18 @@ export const TutorialsSection = () => {
           <style>{`
             .tutorials-swiper .swiper-button-next,
             .tutorials-swiper .swiper-button-prev {
-              color: #6366f1;
+              color: #405B35;
               top: 40%;
               width: 2.5rem;
               height: 2.5rem;
-              background: white;
+              background: #EDF0E0;
               border-radius: 9999px;
-              box-shadow: 0 2px 8px 0 rgba(99,102,241,0.08);
+              box-shadow: 0 2px 8px 0 rgba(64,91,53,0.08);
               transition: background 0.2s;
             }
             .tutorials-swiper .swiper-button-next:hover,
             .tutorials-swiper .swiper-button-prev:hover {
-              background: #e0e7ff;
+              background: #d1e7c6;
             }
             .tutorials-swiper .swiper-button-next:after,
             .tutorials-swiper .swiper-button-prev:after {
@@ -211,7 +211,7 @@ export const TutorialsSection = () => {
         <div className="text-center mt-8">
           <Button 
             onClick={handleViewAllTutorials}
-            className={`bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-3 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto shadow-lg ${
+            className={`bg-gradient-to-r from-[#405B35] to-orange-500 hover:from-[#405B35]/90 hover:to-orange-600 text-white px-8 py-3 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto shadow-lg ${
               isViewAllClicked ? 'scale-95 opacity-80' : ''
             }`}
           >

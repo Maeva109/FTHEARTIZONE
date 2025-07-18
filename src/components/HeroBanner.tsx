@@ -55,12 +55,22 @@ export const HeroBanner = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isClicked, setIsClicked] = useState(false);
+  const [headerOffset, setHeaderOffset] = useState(104); // default: both rows visible
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
     }, 3000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    // Handler to update offset based on custom event from Header
+    const handleHeaderState = (e: any) => {
+      setHeaderOffset(e.detail.hideTopRow ? 56 : 104);
+    };
+    window.addEventListener('header-row-toggle', handleHeaderState);
+    return () => window.removeEventListener('header-row-toggle', handleHeaderState);
   }, []);
 
   const goToSlide = (index: number) => {
@@ -84,7 +94,10 @@ export const HeroBanner = () => {
   };
 
   return (
-    <section className="relative min-h-[350px] sm:min-h-[450px] md:min-h-[600px] flex items-center justify-center overflow-hidden px-2 sm:px-0">
+    <section
+      className="relative min-h-[350px] sm:min-h-[450px] md:min-h-[600px] flex items-center justify-center overflow-hidden px-2 sm:px-0"
+      style={{ marginTop: `${headerOffset}px` }}
+    >
       {/* Carousel container */}
       <div className="absolute inset-0">
         <div 

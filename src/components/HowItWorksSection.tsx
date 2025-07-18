@@ -1,6 +1,10 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Compass, ShoppingCart, Truck } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const steps = [
   {
@@ -52,7 +56,58 @@ export const HowItWorksSection = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 mx-auto mt-4 rounded-full"></div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Carousel for mobile */}
+        <div className="block md:hidden mb-8">
+          <Swiper
+            modules={[Navigation]}
+            spaceBetween={16}
+            slidesPerView={1}
+            navigation
+            className="howitworks-swiper"
+          >
+            {steps.map((step) => (
+              <SwiperSlide key={step.id}>
+                <Card className="hover:shadow-xl transition-all duration-300 h-full bg-white/80 backdrop-blur-sm border-white/50 hover:scale-105 max-w-xs mx-auto">
+                  <CardContent className="p-8 text-center">
+                    <div className={`${step.color} w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 transition-transform duration-300 hover:scale-110`}>
+                      <step.icon className={`h-10 w-10 ${step.iconColor}`} />
+                    </div>
+                    <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white w-8 h-8 rounded-full flex items-center justify-center mx-auto mb-4 font-bold shadow-lg">
+                      {step.id}
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-800 mb-4">{step.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{step.description}</p>
+                  </CardContent>
+                </Card>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <style>{`
+            .howitworks-swiper .swiper-button-next,
+            .howitworks-swiper .swiper-button-prev {
+              color: #405B35;
+              top: 40%;
+              width: 2.5rem;
+              height: 2.5rem;
+              background: #EDF0E0;
+              border-radius: 9999px;
+              box-shadow: 0 2px 8px 0 rgba(64,91,53,0.08);
+              transition: background 0.2s;
+            }
+            .howitworks-swiper .swiper-button-next:hover,
+            .howitworks-swiper .swiper-button-prev:hover {
+              background: #d1e7c6;
+            }
+            .howitworks-swiper .swiper-button-next:after,
+            .howitworks-swiper .swiper-button-prev:after {
+              font-size: 1.5rem;
+              font-weight: bold;
+            }
+          `}</style>
+        </div>
+
+        {/* Grid for desktop */}
+        <div className="hidden md:grid md:grid-cols-3 gap-8">
           {steps.map((step, index) => (
             <div key={step.id} className="relative">
               <Card className="hover:shadow-xl transition-all duration-300 h-full bg-white/80 backdrop-blur-sm border-white/50 hover:scale-105">
@@ -67,7 +122,6 @@ export const HowItWorksSection = () => {
                   <p className="text-gray-600 leading-relaxed">{step.description}</p>
                 </CardContent>
               </Card>
-              
               {/* Arrow between steps */}
               {index < steps.length - 1 && (
                 <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-3xl text-emerald-300 animate-pulse">

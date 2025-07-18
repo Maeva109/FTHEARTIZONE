@@ -98,7 +98,7 @@ export const ArtisansGrid = () => {
         </div>
 
         {/* Artisans grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {loading ? (
             <div className="col-span-3 text-center text-gray-500">Chargement...</div>
           ) : error ? (

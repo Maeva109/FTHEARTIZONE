@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Eye } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 const BACKEND_URL = 'http://localhost:8000';
 
@@ -11,6 +12,7 @@ export const ProductsSection = () => {
   const navigate = useNavigate();
   const [isViewAllClicked, setIsViewAllClicked] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetch(`${BACKEND_URL}/api/products/`)
@@ -48,7 +50,7 @@ export const ProductsSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {products.slice(0, 8).map((product) => (
             <Card 
               key={product.id} 
@@ -76,11 +78,11 @@ export const ProductsSection = () => {
                   {product.name}
                 </h3>
                 <p className="text-lg font-bold text-[#405B35] mb-3">{Number(product.price).toLocaleString()} FCFA</p>
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2 sm:flex-row sm:gap-2">
                   <Button 
                     size="sm" 
                     variant="outline" 
-                    className="flex-1 border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white transition-all duration-200"
+                    className="flex-1 border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white transition-all duration-200 text-sm px-2 py-1"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleProductClick(product.id);
@@ -91,10 +93,11 @@ export const ProductsSection = () => {
                   </Button>
                   <Button 
                     size="sm" 
-                    className="flex-1 bg-orange-500 hover:bg-orange-600 transition-all duration-200"
+                    className="flex-1 bg-orange-500 hover:bg-orange-600 transition-all duration-200 text-sm px-2 py-1"
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log('Adding to cart:', product.name);
+                      addToCart(product.id);
+                      // Optionally, show a toast or alert here
                     }}
                   >
                     Ajouter

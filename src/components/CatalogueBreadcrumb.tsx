@@ -14,7 +14,7 @@ interface CatalogueBreadcrumbProps {
 
 export const CatalogueBreadcrumb = ({ selectedCategory }: CatalogueBreadcrumbProps) => {
   return (
-    <nav className="bg-white border-b border-gray-200 mt-20 px-4 py-3">
+    <nav className="bg-white border-b border-gray-200 px-4 py-3">
       <div className="container mx-auto">
         <Breadcrumb>
           <BreadcrumbList>

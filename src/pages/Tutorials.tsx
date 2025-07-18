@@ -29,7 +29,7 @@ const Tutorials = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#EDF0E0] pt-32 md:pt-36 overflow-x-hidden w-full max-w-full">
+    <div className="min-h-screen bg-[#EDF0E0] overflow-x-hidden w-full max-w-full">
       <Header />
       
       {/* Welcome Animation */}

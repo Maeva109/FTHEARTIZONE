@@ -1,6 +1,10 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const testimonials = [
   {
@@ -54,8 +58,69 @@ export const TestimonialsSection = () => {
           </p>
         </div>
 
-        {/* Circular testimonials layout */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* Carousel for mobile */}
+        <div className="block md:hidden mb-8">
+          <Swiper
+            modules={[Navigation]}
+            spaceBetween={16}
+            slidesPerView={1}
+            navigation
+            className="testimonials-swiper"
+          >
+            {testimonials.map((testimonial) => (
+              <SwiperSlide key={testimonial.id}>
+                <Card className="hover:shadow-lg transition-shadow duration-200 rounded-full p-1 bg-gradient-to-br from-orange-100 to-green-100 max-w-xs mx-auto">
+                  <div className="bg-white rounded-full p-6 h-full flex flex-col justify-center items-center text-center">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Avatar className="w-12 h-12">
+                        <AvatarImage src={testimonial.avatar} />
+                        <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <img 
+                        src={testimonial.productImage} 
+                        alt="Product"
+                        className="w-12 h-12 rounded-full object-cover border-2 border-orange-200"
+                      />
+                    </div>
+                    <h4 className="font-semibold text-gray-800 mb-1">{testimonial.name}</h4>
+                    <div className="flex justify-center mb-2">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <span key={i} className="text-orange-400">⭐</span>
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-600 italic mb-2">"{testimonial.text}"</p>
+                    <span className="text-xs text-gray-500">{testimonial.date}</span>
+                  </div>
+                </Card>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <style>{`
+            .testimonials-swiper .swiper-button-next,
+            .testimonials-swiper .swiper-button-prev {
+              color: #405B35;
+              top: 40%;
+              width: 2.5rem;
+              height: 2.5rem;
+              background: #EDF0E0;
+              border-radius: 9999px;
+              box-shadow: 0 2px 8px 0 rgba(64,91,53,0.08);
+              transition: background 0.2s;
+            }
+            .testimonials-swiper .swiper-button-next:hover,
+            .testimonials-swiper .swiper-button-prev:hover {
+              background: #d1e7c6;
+            }
+            .testimonials-swiper .swiper-button-next:after,
+            .testimonials-swiper .swiper-button-prev:after {
+              font-size: 1.5rem;
+              font-weight: bold;
+            }
+          `}</style>
+        </div>
+
+        {/* Grid for desktop */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {testimonials.map((testimonial) => (
             <Card key={testimonial.id} className="hover:shadow-lg transition-shadow duration-200 rounded-full p-1 bg-gradient-to-br from-orange-100 to-green-100">
               <div className="bg-white rounded-full p-6 h-full flex flex-col justify-center items-center text-center">

@@ -30,7 +30,7 @@ const getImageUrl = (img: string) => {
 export const ProductGrid = ({ products, onProductClick }: ProductGridProps) => {
   const { addToCart } = useCart();
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {products.map((product) => (
         <Card 
           key={product.id} 
@@ -79,13 +79,14 @@ export const ProductGrid = ({ products, onProductClick }: ProductGridProps) => {
               </p>
               <Button 
                 size="sm" 
-                className="bg-[#405B35] hover:bg-[#405B35]/90 text-white px-4 py-2 font-semibold"
+                className="w-full sm:w-auto bg-[#405B35] hover:bg-[#405B35]/90 text-white font-semibold text-sm px-2 py-1"
                 onClick={(e) => {
                   e.stopPropagation();
                   addToCart(product.id, 1);
                 }}
               >
-                Ajouter au panier
+                <span className="block sm:hidden">Ajouter</span>
+                <span className="hidden sm:block">Ajouter au panier</span>
               </Button>
             </div>
           </CardContent>

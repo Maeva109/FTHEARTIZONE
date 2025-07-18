@@ -21,23 +21,23 @@ export const CreateShopSection = () => {
       <div className="container mx-auto">
         {/* Single Background Container */}
         <div 
-          className="relative rounded-2xl overflow-hidden p-12 text-center min-h-[500px] flex items-center justify-center"
+          className="relative rounded-2xl overflow-hidden p-6 md:p-12 text-center min-h-[500px] flex items-center justify-center"
           style={{
             backgroundImage: `linear-gradient(rgba(64, 91, 53, 0.8), rgba(64, 91, 53, 0.8)), url(/lovable-uploads/9b756809-c663-40ab-90f7-8a995e913ce3.png)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
         >
-          <div className="max-w-4xl mx-auto text-white relative z-10">
+          <div className="w-full max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl mx-auto text-white relative z-10">
             <div className="flex justify-center mb-4">
               <div className="bg-white/20 p-4 rounded-full animate-pulse">
                 <Store className="h-12 w-12 text-white" />
               </div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">
               Créez votre boutique Artizone
             </h2>
-            <p className="text-xl mb-8 text-green-100">
+            <p className="text-base md:text-lg lg:text-xl mb-8 text-green-100">
               Vous êtes artisan ? Rejoignez notre communauté et partagez vos créations avec le monde entier. 
               Créez votre boutique en ligne, gérez vos produits et développez votre activité avec Artizone.
             </p>

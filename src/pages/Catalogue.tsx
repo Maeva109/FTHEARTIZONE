@@ -35,6 +35,7 @@ const Catalogue = () => {
   });
 
   const [showWelcomeAnimation, setShowWelcomeAnimation] = useState(false);
+  const [headerOffset, setHeaderOffset] = useState(104); // default: both rows visible
 
   useEffect(() => {
     setFilters(prev => ({
@@ -47,6 +48,14 @@ const Catalogue = () => {
       setTimeout(() => setShowWelcomeAnimation(false), 2000);
     }
   }, [categoryFromUrl, searchFromUrl]);
+
+  useEffect(() => {
+    const handleHeaderState = (e: any) => {
+      setHeaderOffset(e.detail.hideTopRow ? 56 : 104);
+    };
+    window.addEventListener('header-row-toggle', handleHeaderState);
+    return () => window.removeEventListener('header-row-toggle', handleHeaderState);
+  }, []);
 
   const handleProductClick = (productId: number) => {
     navigate(`/produit/${productId}`);
@@ -69,7 +78,7 @@ const Catalogue = () => {
   return (
     <div className="min-h-screen bg-[#EDF0E0]">
       <Header />
-      <div className="pt-24 md:pt-32">
+      <div style={{ marginTop: `${headerOffset}px` }}>
       
       {/* Welcome Animation */}
       {showWelcomeAnimation && (

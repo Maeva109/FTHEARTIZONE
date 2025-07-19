@@ -52,7 +52,7 @@ export const Footer = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-center lg:justify-start">
               <img 
-                src="/lovable-uploads/b5fc6385-34ed-4a5a-a2d4-d8ae12702b43.png" 
+                src="/lovable-uploads/Picsart_25-07-18_20-18-19-356.png" 
                 alt="Artizone Logo" 
                 className="h-26 w-auto mb-4 transform hover:scale-105 transition-transform duration-200"
               />

@@ -74,7 +74,7 @@ export const Header = () => {
         <span className="text-sm font-medium text-gray-700">Vendre avec Artizone</span>
         {/* Language/country icon (placeholder) */}
         <span className="rounded-full border border-gray-300 p-1 flex items-center justify-center">
-          <span role="img" aria-label="fr">🇫🇷</span>
+          <span role="img" aria-label="cmr">CMR</span>
         </span>
       </div>
       {/* Second row: hamburger, search, icons (always sticky) */}

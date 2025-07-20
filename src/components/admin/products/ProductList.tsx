@@ -9,7 +9,7 @@ export default function ProductList() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [notif, setNotif] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-
+  const [search, setSearch] = useState('');
   // Charger les produits depuis l'API
   const fetchProducts = async () => {
     setLoading(true);
@@ -91,17 +91,33 @@ export default function ProductList() {
       setNotif({ type: 'error', message: 'Erreur lors de la modification.' });
     }
   };
+  // Filtered products
+  const filteredProducts = products.filter(prod =>
+    prod.name.toLowerCase().includes(search.toLowerCase()) ||
+    (prod.description && prod.description.toLowerCase().includes(search.toLowerCase())) ||
+    (prod.category_name && prod.category_name.toLowerCase().includes(search.toLowerCase())) ||
+    (typeof prod.category === 'string' && prod.category.toLowerCase().includes(search.toLowerCase()))
+  );
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-2">
         <h2 className="text-2xl font-bold">Produits</h2>
+        <div className="flex flex-col md:flex-row gap-2 md:items-center w-full md:w-auto">
+          <input
+            type="text"
+            placeholder="Rechercher un produit..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="border rounded px-3 py-2 w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-[#405B35]"
+          />
         <button
           className="bg-[#405B35] text-white px-4 py-2 rounded hover:bg-[#2e4025]"
           onClick={() => { setEditProduct(null); setShowModal(true); }}
         >
           + Ajouter un produit
         </button>
+        </div>
       </div>
       {notif && (
         <div className={`mb-4 p-2 rounded text-sm ${notif.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{notif.message}</div>
@@ -122,7 +138,8 @@ export default function ProductList() {
             </tr>
           </thead>
           <tbody>
-            {products.map((prod) => (
+           
+            {filteredProducts.map((prod) => (
               <tr key={prod.id}>
                 <td className="px-4 py-2 border">{prod.name}</td>
                 <td className="px-4 py-2 border">{prod.price} €</td>

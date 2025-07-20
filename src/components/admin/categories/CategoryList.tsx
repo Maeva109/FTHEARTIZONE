@@ -9,7 +9,7 @@ export default function CategoryList() {
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [notif, setNotif] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-
+  const [search, setSearch] = useState('');
   // Fetch categories from backend
   const fetchCategories = async () => {
     setLoading(true);
@@ -84,17 +84,32 @@ export default function CategoryList() {
       setNotif({ type: 'error', message: 'Erreur lors de la modification.' });
     }
   };
+  // Filtered categories
+  const filteredCategories = categories.filter(cat =>
+    cat.name.toLowerCase().includes(search.toLowerCase()) ||
+    cat.description.toLowerCase().includes(search.toLowerCase())
+  );
+
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-2">  
         <h2 className="text-2xl font-bold">Catégories</h2>
+        <div className="flex flex-col md:flex-row gap-2 md:items-center w-full md:w-auto">
+          <input
+            type="text"
+            placeholder="Rechercher une catégorie..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="border rounded px-3 py-2 w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-[#405B35]"
+          />
         <button
           className="bg-[#405B35] text-white px-4 py-2 rounded hover:bg-[#2e4025]"
           onClick={() => { setEditCategory(null); setShowModal(true); }}
         >
           + Ajouter une catégorie
         </button>
+        </div>
       </div>
       {notif && (
         <div className={`mb-4 p-2 rounded text-sm ${notif.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{notif.message}</div>
@@ -112,8 +127,9 @@ export default function CategoryList() {
             </tr>
           </thead>
           <tbody>
-            {categories.length > 0 ? (
-              categories.map((cat) => (
+            
+            {filteredCategories.length > 0 ? (
+              filteredCategories.map((cat) => (    
                 <tr key={cat.id}>
                   <td className="px-4 py-2 border">{cat.name}</td>
                   <td className="px-4 py-2 border">{cat.description}</td>

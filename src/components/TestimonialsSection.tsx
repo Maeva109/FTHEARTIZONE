@@ -13,8 +13,8 @@ const testimonials = [
     date: '15 Mars 2024',
     rating: 5,
     text: 'Magnifique collier traditionnel ! La qualité est exceptionnelle et l\'artisan a su capturer l\'essence de l\'art camerounais.',
-    productImage: '/lovable-uploads/ndop.jpg',
-    avatar: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=50&h=50&fit=crop&crop=face'
+    productImage: '/lovable-uploads/saty.jpg',
+    avatar: '/lovable-uploads/WhatsApp Image 2025-07-20 à 04.20.17_e9b63eed.jpg'
   },
   {
     id: 2,
@@ -22,8 +22,8 @@ const testimonials = [
     date: '8 Mars 2024',
     rating: 5,
     text: 'Service client excellent et livraison rapide. Je recommande vivement cette plateforme pour découvrir l\'artisanat local.',
-    productImage: 'https://images.unsplash.com/photo-1500673922987-e212871fec22?w=100&h=100&fit=crop',
-    avatar: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=50&h=50&fit=crop&crop=face'
+    productImage: '/lovable-uploads/shoes.jpg',
+    avatar: '/lovable-uploads/WhatsApp Image 2025-07-20 à 04.21.47_4f1a1b2c.jpg'
   },
   {
     id: 3,
@@ -31,17 +31,17 @@ const testimonials = [
     date: '2 Mars 2024',
     rating: 5,
     text: 'Les produits sont authentiques et de grande qualité. C\'est formidable de pouvoir soutenir les artisans locaux.',
-    productImage: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop',
-    avatar: 'https://images.unsplash.com/photo-1500673922987-e212871fec22?w=50&h=50&fit=crop&crop=face'
+    productImage: '/lovable-uploads/tam.jpg',
+    avatar: '/lovable-uploads/WhatsApp Image 2025-07-20 à 04.21.22_a9e55a0c.jpg'
   },
   {
     id: 4,
-    name: 'Jean-Pierre Mballa',
+    name: 'Jeanny Mballa',
     date: '25 Février 2024',
     rating: 5,
     text: 'Une plateforme exceptionnelle qui valorise nos artisans. Les créations sont uniques et pleines d\'histoire.',
-    productImage: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=100&h=100&fit=crop',
-    avatar: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=50&h=50&fit=crop&crop=face'
+    productImage: '/lovable-uploads/te.jpg',
+    avatar: '/lovable-uploads/WhatsApp Image 2025-07-20 à 04.20.41_45ec3996.jpg'
   }
 ];
 

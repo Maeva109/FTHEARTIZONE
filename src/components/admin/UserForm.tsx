@@ -124,7 +124,7 @@ export const UserForm: React.FC<UserFormProps> = ({
                 id="telephone"
                 value={formData.telephone}
                 onChange={(e) => setFormData(prev => ({ ...prev, telephone: e.target.value }))}
-                placeholder="+33 6 12 34 56 78"
+                placeholder="+237 6 92 34 56 78"
                 required
               />
             </div>

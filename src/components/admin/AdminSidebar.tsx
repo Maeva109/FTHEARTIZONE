@@ -1,4 +1,5 @@
-import { Users, List, Package, Hammer, Book } from 'lucide-react';
+
+import { Users, List, Package, Hammer, Book, BarChart2 } from 'lucide-react';
 
 type AdminSidebarProps = {
   isOpen: boolean;
@@ -14,6 +15,10 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           <span className="text-xl font-bold text-[#405B35] tracking-wide">Artizone <span className="text-gray-700">Admin</span></span>
         </div>
         <nav className="flex-1 px-2 space-y-2">
+          <a href="/admin/statistics" className="flex items-center gap-3 px-4 py-2 rounded-lg font-medium text-gray-700 hover:bg-[#e6eedd] hover:text-[#405B35] transition-colors">
+            <BarChart2 className="h-5 w-5" />
+            Statistiques
+          </a>
           <a href="/admin/categories" className="flex items-center gap-3 px-4 py-2 rounded-lg font-medium text-gray-700 hover:bg-[#e6eedd] hover:text-[#405B35] transition-colors">
             <List className="h-5 w-5" />
             Catégories

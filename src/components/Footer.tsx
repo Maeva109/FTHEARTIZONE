@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const Footer = () => {
   const [footerForm, setFooterForm] = useState({
@@ -51,11 +52,13 @@ export const Footer = () => {
           {/* Left: Logo and description - Using image 2 logo */}
           <div className="space-y-6">
             <div className="flex items-center justify-center lg:justify-start">
-              <img 
-                src="/lovable-uploads/Picsart_25-07-18_20-18-19-356.png" 
-                alt="Artizone Logo" 
-                className="h-26 w-auto mb-4 transform hover:scale-105 transition-transform duration-200"
-              />
+              <Link to="/">
+                <img 
+                  src="/lovable-uploads/f97e1591-edd7-4e11-a6c8-697a5d131cf0.png" 
+                  alt="Artizone Logo" 
+                  className="h-26 w-auto mb-4 transform hover:scale-105 transition-transform duration-200"
+                />
+              </Link>
             </div>
             <p className="text-green-200 leading-relaxed">
               Artizone connecte les artisans talentueux du Cameroun avec des clients passionnés par l'art local. 
@@ -118,30 +121,30 @@ export const Footer = () => {
             <div>
               <h3 className="text-xl font-bold mb-4">Liens rapides</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-green-200 hover:text-white transition-colors">À propos</a></li>
-                <li><a href="#" className="text-green-200 hover:text-white transition-colors">Catalogue</a></li>
-                <li><a href="#" className="text-green-200 hover:text-white transition-colors">Artisans</a></li>
-                <li><a href="#" className="text-green-200 hover:text-white transition-colors">Tutoriels</a></li>
-                <li><a href="#" className="text-green-200 hover:text-white transition-colors">Support</a></li>
+                <li><Link to="/qui-sommes-nous" className="text-green-200 hover:text-white transition-colors">À propos</Link></li>
+                <li><Link to="/catalogue" className="text-green-200 hover:text-white transition-colors">Catalogue</Link></li>
+                <li><Link to="/artisans" className="text-green-200 hover:text-white transition-colors">Artisans</Link></li>
+                <li><Link to="/tutoriels" className="text-green-200 hover:text-white transition-colors">Tutoriels</Link></li>
+                <li><Link to="/contact" className="text-green-200 hover:text-white transition-colors">Support</Link></li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-xl font-bold mb-4">Réseaux sociaux</h3>
               <div className="flex gap-4">
-                <a href="#" className="text-green-200 hover:text-white transition-colors">📘 Facebook</a>
-                <a href="#" className="text-green-200 hover:text-white transition-colors">📷 Instagram</a>
-                <a href="#" className="text-green-200 hover:text-white transition-colors">🐦 Twitter</a>
+                <a href="https://facebook.com/artizone" target="_blank" rel="noopener noreferrer" className="text-green-200 hover:text-white transition-colors">📘 Facebook</a>
+                <a href="https://instagram.com/artizone" target="_blank" rel="noopener noreferrer" className="text-green-200 hover:text-white transition-colors">📷 Instagram</a>
+                <a href="https://twitter.com/artizone" target="_blank" rel="noopener noreferrer" className="text-green-200 hover:text-white transition-colors">🐦 Twitter</a>
               </div>
             </div>
 
             <div>
               <h3 className="text-xl font-bold mb-4">Mentions légales</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="text-green-200 hover:text-white transition-colors">Mentions légales</a></li>
-                <li><a href="#" className="text-green-200 hover:text-white transition-colors">Politique de confidentialité</a></li>
-                <li><a href="#" className="text-green-200 hover:text-white transition-colors">Conditions d'utilisation</a></li>
-                <li><a href="#" className="text-green-200 hover:text-white transition-colors">Contact</a></li>
+                <li><Link to="/mentions-legales" className="text-green-200 hover:text-white transition-colors">Mentions légales</Link></li>
+                <li><Link to="/politique-confidentialite" className="text-green-200 hover:text-white transition-colors">Politique de confidentialité</Link></li>
+                <li><Link to="/conditions-utilisation" className="text-green-200 hover:text-white transition-colors">Conditions d'utilisation</Link></li>
+                <li><Link to="/contact" className="text-green-200 hover:text-white transition-colors">Contact</Link></li>
               </ul>
             </div>
           </div>

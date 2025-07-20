@@ -53,30 +53,30 @@ export const ArtisansGrid = () => {
   }, [search, selectedSpecialty, selectedRegion]);
 
   return (
-    <section className="py-16 px-4 bg-white">
-      <div className="container mx-auto">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-[#405B35] mb-4 text-center">
+    <section className="py-8 sm:py-12 md:py-16 px-3 sm:px-4 bg-white overflow-x-hidden">
+      <div className="w-full max-w-6xl mx-auto">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#405B35] mb-3 sm:mb-4 text-center break-words">
             Tous nos artisans créateurs
           </h2>
-          <p className="text-lg text-gray-600 text-center mb-8 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 text-center mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
             Découvrez les talents exceptionnels de nos artisans camerounais et leurs créations uniques
           </p>
 
           {/* Search and filters */}
-          <div className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="flex flex-col md:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 sm:h-5 sm:w-5" />
               <Input
                 placeholder="Rechercher un artisan, une spécialité..."
-                className="pl-10 py-3"
+                className="pl-9 sm:pl-10 py-2 sm:py-3 text-sm sm:text-base"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
             </div>
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <select
-                className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#405B35] focus:border-transparent"
+                className="px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#405B35] focus:border-transparent text-sm sm:text-base"
                 value={selectedSpecialty}
                 onChange={e => setSelectedSpecialty(e.target.value)}
               >
@@ -85,7 +85,7 @@ export const ArtisansGrid = () => {
                 ))}
               </select>
               <select
-                className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#405B35] focus:border-transparent"
+                className="px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#405B35] focus:border-transparent text-sm sm:text-base"
                 value={selectedRegion}
                 onChange={e => setSelectedRegion(e.target.value)}
               >
@@ -98,18 +98,18 @@ export const ArtisansGrid = () => {
         </div>
 
         {/* Artisans grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {loading ? (
-            <div className="col-span-3 text-center text-gray-500">Chargement...</div>
+            <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center text-gray-500 text-sm sm:text-base">Chargement...</div>
           ) : error ? (
-            <div className="col-span-3 text-center text-red-500">{error}</div>
+            <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center text-red-500 text-sm sm:text-base">{error}</div>
           ) : artisans.length === 0 ? (
-            <div className="col-span-3 text-center text-gray-500">Aucun artisan trouvé.</div>
+            <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center text-gray-500 text-sm sm:text-base">Aucun artisan trouvé.</div>
           ) : artisans.map((artisan) => (
             <Card key={artisan.id} className="hover:shadow-lg transition-shadow duration-300 group">
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <div className="text-center">
-                  <div className="relative mb-4">
+                  <div className="relative mb-3 sm:mb-4">
                     <img
                       src={artisan.photo_profil
                         ? (artisan.photo_profil.startsWith('http')
@@ -118,25 +118,25 @@ export const ArtisansGrid = () => {
                         : '/default-profile.png'}
                       alt={artisan.user?.prenom + ' ' + artisan.user?.nom}
                       onError={e => { e.currentTarget.src = '/default-profile.png'; }}
-                      className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-200"
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-full mx-auto object-cover border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-200"
                     />
                   </div>
-                  <h3 className="text-xl font-bold text-[#405B35] mb-1">{artisan.user?.prenom} {artisan.user?.nom}</h3>
-                  <p className="text-lg font-medium text-gray-700 mb-2">{artisan.boutique_id}</p>
-                  <p className="text-gray-600 mb-3">{artisan.description_artisan?.slice(0, 40)}...</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-[#405B35] mb-1 break-words">{artisan.user?.prenom} {artisan.user?.nom}</h3>
+                  <p className="text-base sm:text-lg font-medium text-gray-700 mb-2 break-words">{artisan.boutique_id}</p>
+                  <p className="text-sm sm:text-base text-gray-600 mb-3 break-words">{artisan.description_artisan?.slice(0, 40)}...</p>
                   <div className="flex items-center justify-center gap-2 mb-3">
-                    <MapPin className="h-4 w-4 text-gray-500" />
-                    <span className="text-sm text-gray-500">{artisan.ville}, {artisan.region}</span>
+                    <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-gray-500 flex-shrink-0" />
+                    <span className="text-xs sm:text-sm text-gray-500 break-words">{artisan.ville}, {artisan.region}</span>
                   </div>
                   <div className="flex items-center justify-center gap-2 mb-4">
                     <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="font-medium">{artisan.rating ?? 'N/A'}</span>
+                      <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-yellow-400 text-yellow-400 flex-shrink-0" />
+                      <span className="font-medium text-sm sm:text-base">{artisan.rating ?? 'N/A'}</span>
                     </div>
-                    <span className="text-sm text-gray-500">({artisan.review_count ?? 0} avis)</span>
+                    <span className="text-xs sm:text-sm text-gray-500">({artisan.review_count ?? 0} avis)</span>
                   </div>
                   <Button 
-                    className="w-full bg-[#405B35] hover:bg-[#405B35]/90 text-white"
+                    className="w-full bg-[#405B35] hover:bg-[#405B35]/90 text-white text-sm sm:text-base py-2 sm:py-3"
                     asChild
                   >
                     <a href={`/artisan/${artisan.boutique_id?.toLowerCase().replace(/\s+/g, '-') || artisan.id || 'profile'}`}>
@@ -150,10 +150,10 @@ export const ArtisansGrid = () => {
         </div>
 
         {/* Load more button */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-8 sm:mt-12">
           <Button 
             variant="outline" 
-            className="border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white px-8 py-3"
+            className="border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
           >
             Voir plus d'artisans
           </Button>

@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Facebook, Instagram, Twitter } from 'lucide-react';
 
 export const Footer = () => {
   const [footerForm, setFooterForm] = useState({
@@ -121,20 +122,26 @@ export const Footer = () => {
             <div>
               <h3 className="text-xl font-bold mb-4">Liens rapides</h3>
               <ul className="space-y-2">
-                <li><Link to="/qui-sommes-nous" className="text-green-200 hover:text-white transition-colors">À propos</Link></li>
-                <li><Link to="/catalogue" className="text-green-200 hover:text-white transition-colors">Catalogue</Link></li>
-                <li><Link to="/artisans" className="text-green-200 hover:text-white transition-colors">Artisans</Link></li>
-                <li><Link to="/tutoriels" className="text-green-200 hover:text-white transition-colors">Tutoriels</Link></li>
-                <li><Link to="/contact" className="text-green-200 hover:text-white transition-colors">Support</Link></li>
+                <li><Link to="/qui-sommes-nous" className="text-green-200 hover:text-white transition-colors" onClick={() => window.scrollTo(0, 0)}>À propos</Link></li>
+                <li><Link to="/catalogue" className="text-green-200 hover:text-white transition-colors" onClick={() => window.scrollTo(0, 0)}>Catalogue</Link></li>
+                <li><Link to="/artisans" className="text-green-200 hover:text-white transition-colors" onClick={() => window.scrollTo(0, 0)}>Artisans</Link></li>
+                <li><Link to="/tutoriels" className="text-green-200 hover:text-white transition-colors" onClick={() => window.scrollTo(0, 0)}>Tutoriels</Link></li>
+                <li><Link to="/contact" className="text-green-200 hover:text-white transition-colors" onClick={() => window.scrollTo(0, 0)}>Support</Link></li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-xl font-bold mb-4">Réseaux sociaux</h3>
               <div className="flex gap-4">
-                <a href="https://facebook.com/artizone" target="_blank" rel="noopener noreferrer" className="text-green-200 hover:text-white transition-colors">📘 Facebook</a>
-                <a href="https://instagram.com/artizone" target="_blank" rel="noopener noreferrer" className="text-green-200 hover:text-white transition-colors">📷 Instagram</a>
-                <a href="https://twitter.com/artizone" target="_blank" rel="noopener noreferrer" className="text-green-200 hover:text-white transition-colors">🐦 Twitter</a>
+                <a href="https://facebook.com/artizone" target="_blank" rel="noopener noreferrer" className="text-green-200 hover:text-white transition-colors">
+                  <Facebook className="w-6 h-6" aria-label="Facebook" />
+                </a>
+                <a href="https://instagram.com/artizone" target="_blank" rel="noopener noreferrer" className="text-green-200 hover:text-white transition-colors">
+                  <Instagram className="w-6 h-6" aria-label="Instagram" />
+                </a>
+                <a href="https://twitter.com/artizone" target="_blank" rel="noopener noreferrer" className="text-green-200 hover:text-white transition-colors">
+                  <Twitter className="w-6 h-6" aria-label="Twitter" />
+                </a>
               </div>
             </div>
 

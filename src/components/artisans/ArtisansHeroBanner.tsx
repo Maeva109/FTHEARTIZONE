@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { Sparkles, Heart, Users } from 'lucide-react';
+import { Sparkles, Heart, Users, ArrowRight } from 'lucide-react';
 import { artisanAPI, BACKEND_URL } from '@/lib/api';
 
 export const ArtisansHeroBanner = () => {
@@ -46,7 +46,7 @@ export const ArtisansHeroBanner = () => {
         </p>
         {/* Responsive grid of artisan circles */}
         <div className="relative">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-8 justify-items-center max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-y-8 gap-x-4 justify-items-center max-w-6xl mx-auto">
             {loading ? (
               <div className="text-gray-500 col-span-full">Chargement...</div>
             ) : artisans.length === 0 ? (
@@ -54,9 +54,9 @@ export const ArtisansHeroBanner = () => {
             ) : artisans.map((artisan) => (
               <div
                 key={artisan.id}
-                className="text-center cursor-pointer group"
+                className="flex flex-col items-center group focus:outline-none"
               >
-                <div className="relative mb-3">
+                <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg bg-white group-hover:scale-105 group-hover:border-orange-400 transition-all duration-200">
                   <img
                     src={artisan.photo_profil
                       ? (artisan.photo_profil.startsWith('http')
@@ -65,18 +65,21 @@ export const ArtisansHeroBanner = () => {
                       : '/default-profile.png'}
                     alt={artisan.user?.prenom + ' ' + artisan.user?.nom}
                     onError={e => { e.currentTarget.src = '/default-profile.png'; }}
-                    className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-4 border-white shadow-lg group-hover:scale-105 transition-all duration-300 group-hover:border-orange-300"
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute -top-1 -right-1 bg-orange-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Heart className="h-3 w-3" />
-                  </div>
                 </div>
-                <a
-                  href={`/artisan/${artisan.boutique_id?.toLowerCase().replace(/\s+/g, '-') || artisan.id || 'profile'}`}
-                  className="block text-sm md:text-base font-medium text-[#405B35] hover:text-orange-500 transition-colors min-w-0 max-w-24 group-hover:scale-105 transform duration-200"
-                >
-                  {artisan.boutique_id || artisan.user?.prenom}
-                </a>
+                <div className="mt-3 text-center max-w-[7.5rem] flex flex-col items-center">
+                  <div className="font-semibold text-[#405B35] truncate">{artisan.boutique_id || artisan.user?.prenom}</div>
+                  <div className="text-xs text-gray-500 truncate">{artisan.specialty || artisan.city}</div>
+                  <a
+                    href={`/artisan/${artisan.boutique_id?.toLowerCase().replace(/\s+/g, '-') || artisan.id || 'profile'}`}
+                    className="mt-1 flex items-center gap-1 text-[#405B35] hover:text-orange-500 font-medium transition-colors group"
+                    aria-label="Voir la boutique"
+                  >
+                    <span className="text-xs">Voir la boutique</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                </div>
               </div>
             ))}
           </div>

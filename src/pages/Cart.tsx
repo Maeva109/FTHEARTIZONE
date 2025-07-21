@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Plus, Minus, Trash2, Lock, ShoppingBag, CreditCard, Smartphone } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { PaymentModal } from '@/components/PaymentModal';
+import { useCart } from '@/context/CartContext';
 
 const BACKEND_URL = 'http://localhost:8000';
 
@@ -26,6 +27,7 @@ interface CartItem {
 
 const Cart = () => {
   const navigate = useNavigate();
+  const { fetchCart } = useCart();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [promoCode, setPromoCode] = useState('');
@@ -58,7 +60,11 @@ const Cart = () => {
       body: JSON.stringify({ quantity: newQuantity })
     })
       .then(res => res.json())
-      .then(data => setCartItems(data.items || []));
+      //.then(data => setCartItems(data.items || []));
+      .then(data => {
+      setCartItems(data.items || []);
+      fetchCart(); // Ensure floating cart updates
+      });
   };
 
   const removeItem = (itemId: number) => {
@@ -67,7 +73,11 @@ const Cart = () => {
       credentials: 'include',
     })
       .then(res => res.json())
-      .then(data => setCartItems(data.items || []));
+      //.then(data => setCartItems(data.items || []));
+      .then(data => {
+      setCartItems(data.items || []);
+      fetchCart(); // Ensure floating cart updates
+      });
   };
 
   const handlePaymentMethodClick = (method: string) => {

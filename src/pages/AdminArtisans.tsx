@@ -59,15 +59,25 @@ const AdminArtisans = () => {
     if (editingArtisan) {
       // Edit
       fetch(`${API_URL}${editingArtisan.id}/`, {
-        method: 'PUT',
+        //method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`
         },
         body: JSON.stringify({
-          ...editingArtisan,
-          ...form,
-          user: { ...editingArtisan.user, nom: form.nom, prenom: form.prenom, email: form.email, telephone: form.telephone }
+          //...editingArtisan,
+          //...form,
+          //user: { ...editingArtisan.user, nom: form.nom, prenom: form.prenom, email: form.email, telephone: form.telephone }
+          nom: form.nom,
+          prenom: form.prenom,
+          email: form.email,
+          telephone: form.telephone,
+          departement: form.departement,
+          ville: form.ville,
+          boutique_id: form.boutique_id,
+          description_artisan: form.description_artisan,
+          statut: form.statut
         })
       })
         .then(res => res.json())
@@ -311,7 +321,7 @@ const AdminArtisans = () => {
       </Dialog>
       {/* Artisan Detail Modal */}
       <Dialog open={!!detailArtisan} onOpenChange={() => setDetailArtisan(null)}>
-        <DialogContent>
+        <DialogContent className="max-h-screen overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Détail de l'artisan</DialogTitle>
           </DialogHeader>

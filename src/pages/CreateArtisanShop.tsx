@@ -118,7 +118,8 @@ const CreateArtisanShop = () => {
       const res = await fetch('http://localhost:8000/api/send-verification-code/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email }),
+        credentials: 'include', // Ensure session is used
       });
       if (res.ok) {
         setIsVerificationSent(true);
@@ -158,6 +159,81 @@ const CreateArtisanShop = () => {
         variant: "destructive",
         title: "Erreur",
         description: "Cet email est déjà utilisé"
+      });
+      return;
+    }
+       // Vérification du code avant soumission
+       try {
+        const verifyRes = await fetch('http://localhost:8000/api/verify-code/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: data.email, code: data.verificationCode }),
+          credentials: 'include', // important for session
+        });
+        const verifyData = await verifyRes.json();
+        if (!verifyRes.ok || !verifyData.valid) {
+          toast({
+            variant: 'destructive',
+            title: 'Code invalide',
+            description: verifyData.error || 'Le code de vérification est incorrect.'
+          });
+          return;
+        }
+      } catch (error) {
+        toast({
+          variant: 'destructive',
+          title: 'Erreur',
+          description: 'Erreur lors de la vérification du code.'
+        });
+        return;
+      }
+         // Vérification du code avant soumission
+    try {
+      const verifyRes = await fetch('http://localhost:8000/api/verify-code/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: data.email, code: data.verificationCode }),
+        credentials: 'include', // important for session
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.valid) {
+        toast({
+          variant: 'destructive',
+          title: 'Code invalide',
+          description: verifyData.error || 'Le code de vérification est incorrect.'
+        });
+        return;
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Erreur',
+        description: 'Erreur lors de la vérification du code.'
+      });
+      return;
+    }
+    // Vérification du code avant soumission
+    try {
+      const verifyRes = await fetch('http://localhost:8000/api/verify-code/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: data.email, code: data.verificationCode }),
+        credentials: 'include', // important for session
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.valid) {
+        toast({
+          variant: 'destructive',
+          title: 'Code invalide',
+          description: verifyData.error || 'Le code de vérification est incorrect.'
+        });
+        return;
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Erreur',
+        description: 'Erreur lors de la vérification du code.'
       });
       return;
     }

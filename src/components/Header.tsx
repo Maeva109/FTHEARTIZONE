@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, User, UserPlus, ChevronDown, Heart, ShoppingCart, Menu, X } from 'lucide-react';
+import { Search, User, UserPlus, ChevronDown, Heart, ShoppingCart, Menu, X, Users, Star, HelpCircle, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,6 +13,8 @@ export const Header = () => {
   const [showAboutDropdown, setShowAboutDropdown] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [mobileArtisansOpen, setMobileArtisansOpen] = useState(false);
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -270,54 +272,106 @@ export const Header = () => {
 
       {/* Mobile menu overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 md:hidden" onClick={() => setIsMenuOpen(false)}>
-          <div className="absolute top-0 left-0 w-3/4 max-w-xs h-full bg-[#405B35] text-white shadow-lg p-6 flex flex-col gap-4" onClick={e => e.stopPropagation()}>
-            <button className="self-end mb-4" onClick={() => setIsMenuOpen(false)} aria-label="Fermer le menu">
-              <X className="h-7 w-7" />
-            </button>
-            <Link to="/" className="block py-2 font-medium hover:text-orange-400" onClick={() => setIsMenuOpen(false)}>Accueil</Link>
-            <Link to="/catalogue" className="block py-2 font-medium hover:text-orange-400" onClick={() => setIsMenuOpen(false)}>Nos Catalogue Artisanal</Link>
-            <div className="border-t border-white/20 my-2"></div>
-            <div>
-              <span className="block py-2 font-medium">Espace Artisans</span>
-              <Link to="/artisans" className="block px-4 py-2 hover:bg-[#405B35]/80 rounded" onClick={() => setIsMenuOpen(false)}>Découvrez nos artisan créateur</Link>
-              <Link to="/artisan/create" className="block px-4 py-2 hover:bg-[#405B35]/80 rounded" onClick={() => setIsMenuOpen(false)}>Créer sa boutique artisan</Link>
+        <div className="fixed inset-0 bg-black bg-opacity-40 z-50 md:hidden flex justify-end" onClick={() => setIsMenuOpen(false)}>
+          <nav className="absolute top-0 right-0 w-[85vw] max-w-xs h-full bg-[#405B35] text-white shadow-2xl p-0 flex flex-col gap-0 rounded-l-2xl animate-slide-in overflow-y-auto" onClick={e => e.stopPropagation()} style={{boxShadow: '0 0 32px 0 rgba(0,0,0,0.25)'}}>
+            {/* Logo at the top */}
+            <div className="flex items-center justify-between px-6 pt-6 pb-2 border-b border-white/10">
+              <Link to="/" onClick={() => setIsMenuOpen(false)}>
+                <img src="/lovable-uploads/f97e1591-edd7-4e11-a6c8-697a5d131cf0.png" alt="Artizone Logo" className="h-10 w-auto" />
+              </Link>
+              <button className="p-2 rounded-full hover:bg-white/10 transition" onClick={() => setIsMenuOpen(false)} aria-label="Fermer le menu">
+                <X className="h-7 w-7" />
+              </button>
             </div>
-            <Link to="/tutoriels" className="block py-2 font-medium hover:text-orange-400" onClick={() => setIsMenuOpen(false)}>Tutoriels</Link>
-            <div className="border-t border-white/20 my-2"></div>
-            {/* À propos section */}
-            <div>
-              <span className="block py-2 font-medium">À propos</span>
-              <Link to="/qui-sommes-nous" className="block px-4 py-2 hover:bg-[#405B35]/80 rounded" onClick={() => setIsMenuOpen(false)}>Qui sommes-nous</Link>
-              <Link to="/faq" className="block px-4 py-2 hover:bg-[#405B35]/80 rounded" onClick={() => setIsMenuOpen(false)}>FAQ</Link>
-              <Link to="/contact" className="block px-4 py-2 hover:bg-[#405B35]/80 rounded" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+            <div className="flex flex-col gap-2 px-6 pt-4 pb-2">
+              <Link to="/" className="flex items-center gap-3 py-2 px-2 rounded-lg font-semibold hover:bg-green-700 transition" onClick={() => setIsMenuOpen(false)}>
+                <Menu className="h-5 w-5" /> Accueil
+              </Link>
+              <Link to="/catalogue" className="flex items-center gap-3 py-2 px-2 rounded-lg font-semibold hover:bg-green-700 transition" onClick={() => setIsMenuOpen(false)}>
+                <ShoppingCart className="h-5 w-5" /> Nos Catalogue Artisanal
+              </Link>
             </div>
-            <div className="border-t border-white/20 my-2"></div>
+            <hr className="border-white/20 mx-6 my-1" />
+            {/* Espace Artisans Collapsible */}
+            <div className="px-6">
+              <button onClick={() => setMobileArtisansOpen(v => !v)} className="flex items-center justify-between w-full py-2 font-bold uppercase text-xs tracking-widest text-green-200 focus:outline-none">
+                <span className="flex items-center gap-2"><Users className="h-4 w-4" /> Espace Artisans</span>
+                <ChevronDown className={`h-4 w-4 transition-transform ${mobileArtisansOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileArtisansOpen && (
+                <ul className="flex flex-col gap-1 mt-1 mb-2 animate-fade-in">
+                  <li>
+                    <Link to="/artisans" className="flex items-center gap-2 py-2 px-3 rounded hover:bg-green-700 transition" onClick={() => setIsMenuOpen(false)}>
+                      <Users className="h-4 w-4" /> Découvrez nos artisan créateur
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/artisan/create" className="flex items-center gap-2 py-2 px-3 rounded hover:bg-green-700 transition" onClick={() => setIsMenuOpen(false)}>
+                      <UserPlus className="h-4 w-4" /> Créer sa boutique artisan
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </div>
+            <div className="px-6">
+              <Link to="/tutoriels" className="flex items-center gap-3 py-2 px-2 rounded-lg font-semibold hover:bg-green-700 transition" onClick={() => setIsMenuOpen(false)}>
+                <Star className="h-5 w-5" /> Tutoriels
+              </Link>
+            </div>
+            <hr className="border-white/20 mx-6 my-1" />
+            {/* À propos Collapsible */}
+            <div className="px-6">
+              <button onClick={() => setMobileAboutOpen(v => !v)} className="flex items-center justify-between w-full py-2 font-bold uppercase text-xs tracking-widest text-green-200 focus:outline-none">
+                <span className="flex items-center gap-2"><User className="h-4 w-4" /> À propos</span>
+                <ChevronDown className={`h-4 w-4 transition-transform ${mobileAboutOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {mobileAboutOpen && (
+                <ul className="flex flex-col gap-1 mt-1 mb-2 animate-fade-in">
+                  <li>
+                    <Link to="/qui-sommes-nous" className="flex items-center gap-2 py-2 px-3 rounded hover:bg-green-700 transition" onClick={() => setIsMenuOpen(false)}>
+                      <User className="h-4 w-4" /> Qui sommes-nous
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/faq" className="flex items-center gap-2 py-2 px-3 rounded hover:bg-green-700 transition" onClick={() => setIsMenuOpen(false)}>
+                      <HelpCircle className="h-4 w-4" /> FAQ
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/contact" className="flex items-center gap-2 py-2 px-3 rounded hover:bg-green-700 transition" onClick={() => setIsMenuOpen(false)}>
+                      <Mail className="h-4 w-4" /> Contact
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </div>
             {/* Auth section for mobile menu */}
-            {!isAuthenticated ? (
-              <div className="flex flex-col gap-2 mt-2">
-                <Button asChild variant="outline" className="flex items-center gap-2 border-white text-[#405B35] bg-white hover:bg-gray-100 hover:text-[#405B35] px-3 py-2 text-base">
-                  <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                    <User className="h-4 w-4" />
-                    Connexion
-                  </Link>
-                </Button>
-                <Button asChild className="flex items-center gap-2 bg-white hover:bg-gray-100 text-[#405B35] px-3 py-2 text-base">
-                  <Link to="/register" onClick={() => setIsMenuOpen(false)}>
-                    <UserPlus className="h-4 w-4" />
-                    Inscription
-                  </Link>
-                </Button>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-2 mt-2">
-                <div className="px-2 py-1 text-white/80 text-sm">{user?.prenom} {user?.nom}<br/>{user?.email}</div>
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-[#405B35] px-3 py-2 text-base" onClick={() => { handleLogout(); setIsMenuOpen(false); }}>
-                  Déconnexion
-                </Button>
-              </div>
-            )}
-          </div>
+            <div className="px-6 pb-6 mt-4">
+              {!isAuthenticated ? (
+                <div className="flex flex-col gap-3 mt-2">
+                  <Button asChild variant="outline" className="flex items-center gap-2 border-white text-[#405B35] bg-white hover:bg-gray-100 hover:text-[#405B35] px-3 py-3 text-base rounded-lg shadow">
+                    <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                      <User className="h-4 w-4" />
+                      Connexion
+                    </Link>
+                  </Button>
+                  <Button asChild className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-3 py-3 text-base rounded-lg shadow">
+                    <Link to="/register" onClick={() => setIsMenuOpen(false)}>
+                      <UserPlus className="h-4 w-4" />
+                      Inscription
+                    </Link>
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2 mt-2">
+                  <div className="px-2 py-1 text-white/80 text-sm">{user?.prenom} {user?.nom}<br/>{user?.email}</div>
+                  <Button variant="outline" className="border-white text-white hover:bg-white hover:text-[#405B35] px-3 py-2 text-base rounded-lg shadow" onClick={() => { handleLogout(); setIsMenuOpen(false); }}>
+                    Déconnexion
+                  </Button>
+                </div>
+              )}
+            </div>
+          </nav>
         </div>
       )}
     </header>

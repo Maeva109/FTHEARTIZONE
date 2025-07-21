@@ -21,6 +21,8 @@ const regions = [
   'Nord', 'Nord-Ouest', 'Ouest', 'Sud', 'Sud-Ouest',
 ];
 
+const PAGE_SIZE = 3;
+
 export const ArtisansGrid = () => {
   const [artisans, setArtisans] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,6 +30,7 @@ export const ArtisansGrid = () => {
   const [search, setSearch] = useState('');
   const [selectedSpecialty, setSelectedSpecialty] = useState('Toutes les spécialités');
   const [selectedRegion, setSelectedRegion] = useState('Toutes les régions');
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const fetchArtisans = async () => {
     setLoading(true);
@@ -39,6 +42,7 @@ export const ArtisansGrid = () => {
       if (selectedSpecialty !== 'Toutes les spécialités') filters.specialty = selectedSpecialty;
       const data = await artisanAPI.listValidatedArtisansWithFilters(filters);
       setArtisans(data);
+      setVisibleCount(PAGE_SIZE); // Reset pagination on new search/filter
     } catch (e) {
       setError("Erreur lors du chargement des artisans.");
       setArtisans([]);
@@ -51,6 +55,10 @@ export const ArtisansGrid = () => {
     fetchArtisans();
     // eslint-disable-next-line
   }, [search, selectedSpecialty, selectedRegion]);
+
+  const handleVoirPlus = () => {
+    setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, artisans.length));
+  };
 
   return (
     <section className="py-8 sm:py-12 md:py-16 px-3 sm:px-4 bg-white overflow-x-hidden">
@@ -105,7 +113,7 @@ export const ArtisansGrid = () => {
             <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center text-red-500 text-sm sm:text-base">{error}</div>
           ) : artisans.length === 0 ? (
             <div className="col-span-1 sm:col-span-2 lg:col-span-3 text-center text-gray-500 text-sm sm:text-base">Aucun artisan trouvé.</div>
-          ) : artisans.map((artisan) => (
+          ) : artisans.slice(0, visibleCount).map((artisan) => (
             <Card key={artisan.id} className="hover:shadow-lg transition-shadow duration-300 group">
               <CardContent className="p-4 sm:p-6">
                 <div className="text-center">
@@ -150,14 +158,17 @@ export const ArtisansGrid = () => {
         </div>
 
         {/* Load more button */}
-        <div className="text-center mt-8 sm:mt-12">
-          <Button 
-            variant="outline" 
-            className="border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
-          >
-            Voir plus d'artisans
-          </Button>
-        </div>
+        {visibleCount < artisans.length && !loading && !error && (
+          <div className="text-center mt-8 sm:mt-12">
+            <Button 
+              variant="outline" 
+              className="border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
+              onClick={handleVoirPlus}
+            >
+              Voir plus d'artisans
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -32,6 +32,7 @@ import Artisans from "./pages/Artisans";
 import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import AdminArtisans from "./pages/AdminArtisans";
+import ScrollToTop from './components/ScrollToTop';
 
 const queryClient = new QueryClient();
 
@@ -69,6 +70,7 @@ function App() {
       <CartProvider>
         <AuthProvider>
           <BrowserRouter>
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/catalogue" element={<Catalogue />} />

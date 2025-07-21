@@ -59,7 +59,7 @@ export const ArtisansMap = () => {
                   <div className="relative mx-auto mb-2 sm:mb-3">
                     <div 
                       className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full flex items-center justify-center border-2 transition-transform duration-300 hover:scale-105 cursor-pointer relative min-h-[48px] min-w-[48px]"
-                      style={{ 
+          style={{
                         background: COLORS.background, 
                         borderColor: COLORS.primary 
                       }}
@@ -75,8 +75,8 @@ export const ArtisansMap = () => {
                       >
                         <span className="text-white font-bold text-xs sm:text-sm">
                           {item.number}
-                        </span>
-                      </div>
+          </span>
+        </div>
                     </div>
                   </div>
                   <p 
@@ -85,10 +85,10 @@ export const ArtisansMap = () => {
                   >
                     {item.label}
                   </p>
-                </div>
+              </div>
               );
             })}
-          </div>
+              </div>
 
           {error && (
             <div className="text-center mt-4 sm:mt-6 px-2">
@@ -114,8 +114,8 @@ export const ArtisansMap = () => {
               <h2 
                 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 break-words leading-tight"
                 style={{ color: COLORS.primary }}
-              >
-                Tous nos artisans créateurs
+          >
+            Tous nos artisans créateurs
               </h2>
               <div className="space-y-3 sm:space-y-4 leading-relaxed">
                 <p 
@@ -141,8 +141,8 @@ export const ArtisansMap = () => {
                   style={{ color: COLORS.text }}
                 >
                   N'attendez plus pour découvrir ces artisans créateurs talentueux et leurs œuvres uniques !
-                </p>
-              </div>
+          </p>
+        </div>
             </div>
 
             {/* Right: Map */}
@@ -153,9 +153,9 @@ export const ArtisansMap = () => {
                     className="relative rounded-lg p-3 sm:p-4 md:p-6 lg:p-8 min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] flex items-center justify-center"
                     style={{ background: COLORS.background }}
                   >
-                    <img 
-                      src="/lovable-uploads/Ouest.png" 
-                      alt="Carte des départements" 
+          <img
+            src="/lovable-uploads/Ouest.png"
+            alt="Carte des départements"
                       className="w-full h-auto max-w-[220px] sm:max-w-[250px] md:max-w-xs lg:max-w-sm xl:max-w-md object-contain"
                       style={{ maxWidth: '100%' }}
                     />

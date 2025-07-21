@@ -119,7 +119,7 @@ const Contact = () => {
     <div className="min-h-screen bg-[#EDF0E0]">
       <Header />
       
-      <main className="pt-24 pb-16 px-2 sm:px-4">
+      <main className="pt-32 pb-16 px-2 sm:px-4">
         <div className="container mx-auto px-2 sm:px-4 max-w-4xl">
           {/* Page Title */}
           <div className="text-center mb-12">

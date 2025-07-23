@@ -8,6 +8,7 @@ import { Plus, Minus, Trash2, Lock, ShoppingBag, CreditCard, Smartphone } from '
 import { Link, useNavigate } from 'react-router-dom';
 import { PaymentModal } from '@/components/PaymentModal';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 
 const BACKEND_URL = 'http://localhost:8000';
 
@@ -28,16 +29,14 @@ interface CartItem {
 const Cart = () => {
   const navigate = useNavigate();
   const { fetchCart } = useCart();
+  const { isAuthenticated } = useAuth();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [promoCode, setPromoCode] = useState('');
   const [deliveryFees] = useState(2500);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>(() => localStorage.getItem('selectedPaymentMethod') || '');
   
-  // Mock user authentication status - in real app, this would come from auth context
-  const [isUserLoggedIn] = useState(false);
-
   // Fetch cart items from backend
   useEffect(() => {
     setLoading(true);
@@ -86,12 +85,16 @@ const Cart = () => {
   };
 
   const handleCommanderClick = () => {
-    if (!isUserLoggedIn) {
-      navigate('/login');
+    if (!isAuthenticated) {
+      navigate('/login?redirect=/checkout');
       return;
     }
-    // If logged in, proceed with order process
-    console.log('Processing order...');
+    // Save selected payment method to localStorage
+    if (selectedPaymentMethod) {
+      localStorage.setItem('selectedPaymentMethod', selectedPaymentMethod);
+    }
+    // If logged in, proceed with order process and pass payment method in state
+    navigate('/checkout', { state: { selectedPaymentMethod } });
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
@@ -278,36 +281,21 @@ const Cart = () => {
 
                 {/* Payment Methods */}
                 <div className="mb-6">
-                  <p className="font-medium text-gray-900 mb-3">Moyens de paiement:</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Button
-                      variant="outline"
-                      className="flex items-center gap-2 p-3 h-auto"
-                      onClick={() => handlePaymentMethodClick('Orange Money')}
+                  <p className="font-medium text-gray-900 mb-3">Moyen de paiement :</p>
+                  <div className="flex gap-2 items-center">
+                    <select
+                      className="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#405B35]"
+                      value={selectedPaymentMethod}
+                      onChange={e => {
+                        setSelectedPaymentMethod(e.target.value);
+                        localStorage.setItem('selectedPaymentMethod', e.target.value);
+                      }}
                     >
-                      <div className="w-6 h-6 bg-orange-500 rounded flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">🍊</span>
-                      </div>
-                      <span className="text-sm">Orange Money</span>
-                    </Button>
-                    
-                    <Button
-                      variant="outline"
-                      className="flex items-center gap-2 p-3 h-auto"
-                      onClick={() => handlePaymentMethodClick('Mobile Money')}
-                    >
-                      <Smartphone className="w-4 h-4" />
-                      <span className="text-sm">Mobile Money</span>
-                    </Button>
-                    
-                    <Button
-                      variant="outline"
-                      className="flex items-center gap-2 p-3 h-auto col-span-2"
-                      onClick={() => handlePaymentMethodClick('Carte Bancaire')}
-                    >
-                      <CreditCard className="w-4 h-4" />
-                      <span className="text-sm">Carte Bancaire</span>
-                    </Button>
+                      <option value="">Sélectionnez un moyen de paiement</option>
+                      <option value="Orange Money">Orange Money</option>
+                      <option value="Mobile Money">Mobile Money</option>
+                      <option value="Carte Bancaire">Carte Bancaire</option>
+                    </select>
                   </div>
                 </div>
 
@@ -316,6 +304,7 @@ const Cart = () => {
                   <Button 
                     onClick={handleCommanderClick}
                     className="w-full bg-[#405B35] hover:bg-[#405B35]/90 text-white py-3 text-lg font-semibold"
+                    disabled={!selectedPaymentMethod}
                   >
                     Commander
                   </Button>

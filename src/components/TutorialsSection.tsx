@@ -94,7 +94,7 @@ export const TutorialsSection = () => {
   };
 
   return (
-    <section className="py-16 px-4 bg-[#EDF0E0] relative overflow-hidden">
+    <section className="pt-16 pb-0 px-4 bg-[#EDF0E0] relative overflow-hidden">
       {/* Éléments décoratifs de fond */}
       <div className="absolute top-10 left-10 w-20 h-20 bg-[#405B35]/10 rounded-full blur-xl"></div>
       <div className="absolute bottom-10 right-10 w-32 h-32 bg-orange-200/30 rounded-full blur-xl"></div>
@@ -124,7 +124,7 @@ export const TutorialsSection = () => {
               1024: { slidesPerView: 4, slidesPerGroup: 4 },
             }}
             navigation
-            className="tutorials-swiper pb-8"
+            className="tutorials-swiper !pb-0"
             style={{ padding: 0, margin: 0 }}
           >
             {tutorials.map((tutorial) => {
@@ -208,7 +208,7 @@ export const TutorialsSection = () => {
             }
           `}</style>
         </div>
-        <div className="text-center mt-8">
+        <div className="text-center mt-2">
           <Button 
             onClick={handleViewAllTutorials}
             className={`bg-gradient-to-r from-[#405B35] to-orange-500 hover:from-[#405B35]/90 hover:to-orange-600 text-white px-8 py-3 transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto shadow-lg ${

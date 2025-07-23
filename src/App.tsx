@@ -28,11 +28,16 @@ import ArtisanProfileCompletion from "./pages/ArtisanProfileCompletion";
 import ArtisanProfile from "./pages/ArtisanProfile";
 import ProposeTutorial from "./pages/ProposeTutorial";
 import NotFound from "./pages/NotFound";
+import PaymentOrangeMoney from "./pages/PaymentOrangeMoney";
+import PaymentMobileMoney from "./pages/PaymentMobileMoney";
+import PaymentCard from "./pages/PaymentCard";
 import Artisans from "./pages/Artisans";
 import { CartProvider } from '@/context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import AdminArtisans from "./pages/AdminArtisans";
 import ScrollToTop from './components/ScrollToTop';
+import Checkout from './pages/Checkout';
+import Shipping from './pages/Shipping';
 
 const queryClient = new QueryClient();
 
@@ -67,8 +72,8 @@ function App() {
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <CartProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <CartProvider>
           <BrowserRouter>
             <ScrollToTop />
             <Routes>
@@ -101,12 +106,18 @@ function App() {
                   {/* Redirect /artisan/ to artisans page */}
                   <Route path="/artisan" element={<Artisans />} />
               <Route path="/artisan/:shopName" element={<ArtisanProfile />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/checkout/shipping" element={<Shipping />} />
+              {/* Payment routes */}
+              <Route path="/payment/orange-money" element={<PaymentOrangeMoney />} />
+              <Route path="/payment/mobile-money" element={<PaymentMobileMoney />} />
+              <Route path="/payment/carte-bancaire" element={<PaymentCard />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
-        </AuthProvider>
-      </CartProvider>
+        </CartProvider>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
     </ErrorBoundary>

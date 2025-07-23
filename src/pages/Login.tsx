@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,6 +18,7 @@ const Login = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
 
   // Form validation
@@ -60,8 +61,12 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         login(data); // stocke tokens et user dans le contexte
-        // Redirection selon le rôle
-        if (data.user.role === 'admin') {
+        // Redirection selon le paramètre redirect
+        const params = new URLSearchParams(location.search);
+        const redirect = params.get('redirect');
+        if (redirect) {
+          navigate(redirect);
+        } else if (data.user.role === 'admin') {
           navigate('/admin');
         } else if (data.user.role === 'artisan') {
           // Check if user has a valid shop name or ID

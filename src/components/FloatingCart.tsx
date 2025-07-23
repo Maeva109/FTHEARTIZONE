@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 
 const BACKEND_URL = 'http://localhost:8000';
 
@@ -25,6 +26,16 @@ export const FloatingCart = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { cartItems, totalAmount } = useCart();
   const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleCommanderClick = () => {
+    if (!isAuthenticated) {
+      navigate('/login?redirect=/checkout');
+      return;
+    }
+    navigate('/checkout');
+  };
 
   return (
     <>
@@ -96,7 +107,7 @@ export const FloatingCart = () => {
                     Voir le panier complet
                   </Link>
                 </Button>
-                <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white">
+                <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white" onClick={handleCommanderClick}>
                   Commander maintenant
                 </Button>
               </div>

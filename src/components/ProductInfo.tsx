@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { MessageCircle, Minus, Plus, ExternalLink } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { MessageCircle, Minus, Plus, ExternalLink, Star, Heart, Truck, Undo, Mail } from 'lucide-react';
 import { SocialShare } from '@/components/SocialShare';
 import { useCart } from '@/context/CartContext';
 
@@ -26,6 +27,8 @@ interface Product {
     shopName?: string;
   };
   is_in_stock: boolean;
+  averageRating?: number;
+  reviewCount?: number;
 }
 
 interface ProductInfoProps {
@@ -34,7 +37,8 @@ interface ProductInfoProps {
   onArtisanShopClick?: () => void;
 }
 
-export const ProductInfo = ({ product, onContactArtisan, onArtisanShopClick }: ProductInfoProps) => {
+// Main product info: title, price, actions, variants, quantity
+export const ProductInfoMain = ({ product, onContactArtisan, onArtisanShopClick }: ProductInfoProps) => {
   const variants = product.variants ?? [];
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(variants[0] || null);
@@ -95,60 +99,45 @@ export const ProductInfo = ({ product, onContactArtisan, onArtisanShopClick }: P
     });
   };
 
+  // Sticky action bar for mobile
+  // Only show on small screens
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  // Show sticky bar when user scrolls past 400px (mobile only)
+  if (typeof window !== 'undefined') {
+    window.onscroll = () => {
+      if (window.innerWidth < 768) {
+        setShowStickyBar(window.scrollY > 400);
+      }
+    };
+  }
+
   return (
-    <div className="space-y-6">
-      {/* Product Title and Price */}
-      <div>
-        <div className="flex items-center gap-2 mb-2">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-            {product.name}
-          </h1>
+    <div className="space-y-8">
+      {/* Product Title, Rating, and Badge */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#405B35]">{product.name}</h1>
           {product.badge && (
-            <Badge 
-              className={`${
-                product.badge === 'Nouveau' ? 'bg-orange-500' : 
-                product.badge === 'Promo' ? 'bg-red-500' : 'bg-green-500'
-              }`}
-            >
-              {product.badge}
-            </Badge>
+            <Badge className={`ml-2 ${product.badge === 'Nouveau' ? 'bg-orange-500' : product.badge === 'Promo' ? 'bg-red-500' : 'bg-green-500'}`}>{product.badge}</Badge>
           )}
         </div>
-        <div className="flex items-center gap-3 mb-3">
-          <span className="text-2xl font-bold text-[#405B35]">
-            {product.price.toLocaleString()} FCFA
-          </span>
-          {product.originalPrice && (
-            <span className="text-lg text-gray-500 line-through">
-              {product.originalPrice.toLocaleString()} FCFA
-            </span>
-          )}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className={`h-5 w-5 ${i < Math.round(product.averageRating || 0) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
+            ))}
+          </div>
+          <span className="text-gray-500 text-sm">({product.reviewCount || 0} avis)</span>
         </div>
-        <p className={product.is_in_stock ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-          {product.is_in_stock ? 'En stock' : 'Rupture de stock'}
-        </p>
       </div>
 
-      {/* Product Description */}
-      <div>
-        <h3 className="font-semibold text-gray-800 mb-2">Description</h3>
-        <p className="text-gray-600 leading-relaxed">{product.description}</p>
-      </div>
-
-      {/* Product Details */}
-      <div className="space-y-3">
-        <div>
-          <span className="font-semibold text-gray-800">Matériaux:</span>
-          <span className="text-gray-600 ml-2">
-            {product.materials ? product.materials : <span className="italic text-gray-400">Non spécifié</span>}
-          </span>
-        </div>
-        <div>
-          <span className="font-semibold text-gray-800">Dimensions:</span>
-          <span className="text-gray-600 ml-2">
-            {product.dimensions ? product.dimensions : <span className="italic text-gray-400">Longueur: 45cm, Largeur: 2cm</span>}
-          </span>
-        </div>
+      {/* Price and Stock */}
+      <div className="flex flex-col gap-2 mb-2">
+        <span className="text-4xl font-extrabold text-[#405B35]">{product.price.toLocaleString()} FCFA</span>
+        {product.originalPrice && (
+          <span className="text-lg text-gray-400 line-through">{product.originalPrice.toLocaleString()} FCFA</span>
+        )}
+        <span className={`font-semibold ${product.is_in_stock ? 'text-green-600' : 'text-red-500'}`}>{product.is_in_stock ? 'En stock' : 'Rupture de stock'}</span>
       </div>
 
       {/* Variants Selection */}
@@ -178,117 +167,124 @@ export const ProductInfo = ({ product, onContactArtisan, onArtisanShopClick }: P
         </div>
       )}
 
-      {/* Quantity Selector */}
+      {/* Quantity and Actions */}
+      <div className="bg-gray-50 p-6 rounded-xl shadow flex flex-col gap-4">
+        <div className="flex items-center gap-4">
       <div>
-        <h3 className="font-semibold text-gray-800 mb-2">Quantité</h3>
-        <div className="flex items-center gap-3">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handleQuantityChange(-1)}
-            disabled={quantity <= 1}
-          >
-            <Minus className="h-4 w-4" />
+            <h3 className="font-semibold text-gray-800 mb-2 text-sm">Quantité</h3>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="icon" onClick={() => handleQuantityChange(-1)} disabled={quantity <= 1}><Minus className="h-4 w-4" /></Button>
+              <span className="w-10 text-center font-bold text-lg">{quantity}</span>
+              <Button variant="outline" size="icon" onClick={() => handleQuantityChange(1)} disabled={quantity >= 10}><Plus className="h-4 w-4" /></Button>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row gap-3 w-full">
+          <Button size="lg" className="w-full bg-[#405B35] hover:bg-[#405B35]/90 text-white shadow-lg py-4 text-lg font-semibold" onClick={handleAddToCart}>
+            Ajouter au panier
           </Button>
-          <span className="w-12 text-center font-semibold">{quantity}</span>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handleQuantityChange(1)}
-            disabled={quantity >= 10}
-          >
-            <Plus className="h-4 w-4" />
+          <Button size="lg" variant="outline" className="w-full border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white py-4 text-lg font-semibold" onClick={handleBuyNow}>
+            Acheter maintenant
+          </Button>
+          <Button variant="outline" size="icon" className="rounded-full shadow-md border-2 border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white transition-colors duration-200 h-12 w-12 self-center md:self-auto">
+            <Heart className="h-6 w-6" />
           </Button>
         </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="space-y-3">
-        <Button 
-          onClick={handleAddToCart}
-          className="w-full bg-[#405B35] hover:bg-[#405B35]/90 text-white py-3"
-        >
-          Ajouter au panier
-        </Button>
         {addToCartStatus && (
-          <div className={addToCartStatus.includes('ajout') ? 'text-green-600 mt-2' : 'text-red-600 mt-2'}>
-            {addToCartStatus}
-          </div>
+          <p className={`mt-2 text-sm text-center ${addToCartStatus.includes('ajout') ? 'text-green-600' : 'text-red-600'}`}>{addToCartStatus}</p>
         )}
-        <Button 
-          onClick={handleBuyNow}
-          variant="outline"
-          className="w-full border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white py-3"
-        >
-          Acheter maintenant
-        </Button>
       </div>
 
-      {/* Artisan Info */}
-      <Card>
-        <CardContent className="p-4">
-          <h3 className="font-semibold text-gray-800 mb-3">Artisan</h3>
-          <div className="flex items-start gap-4">
-            <img 
-              src={product.artisan?.photo || '/placeholder.png'} 
-              alt={product.artisan?.name || 'Artisan'}
-              className="w-16 h-16 rounded-full object-cover"
-            />
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <h4 className="font-semibold text-gray-800">{product.artisan?.name || 'Artisan inconnu'}</h4>
-                {onArtisanShopClick && product.artisan?.shopName && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={onArtisanShopClick}
-                    className="text-[#405B35] hover:text-[#405B35]/80 p-1"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </Button>
-                )}
+      {/* Sticky Action Bar for Mobile */}
+      {showStickyBar && (
+        <div className="fixed bottom-0 left-0 w-full bg-white shadow-lg z-50 flex gap-2 p-3 md:hidden">
+          <Button size="lg" className="flex-1 bg-[#405B35] hover:bg-[#405B35]/90 text-white font-semibold" onClick={handleAddToCart}>Ajouter au panier</Button>
+          <Button size="lg" variant="outline" className="flex-1 border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white font-semibold" onClick={handleBuyNow}>Acheter</Button>
+          <Button variant="outline" size="icon" className="rounded-full border-2 border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white h-12 w-12"><Heart className="h-6 w-6" /></Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Product details section: accordion, seller card, social share
+export const ProductDetailsSection = ({ product, onContactArtisan, onArtisanShopClick }: ProductInfoProps) => {
+  return (
+    <div className="space-y-8">
+      {/* Accordion for Details */}
+      <Accordion type="single" collapsible defaultValue="description" className="w-full bg-gray-50 rounded-xl shadow-sm p-2">
+        <AccordionItem value="description">
+          <AccordionTrigger className="text-lg font-bold text-[#405B35] flex items-center gap-2">
+            <span><Star className="inline h-5 w-5 text-yellow-400 mr-1" /></span>
+            Description
+          </AccordionTrigger>
+          <AccordionContent className="text-gray-700 leading-relaxed text-base px-2 pb-4">
+            {product.description}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="details">
+          <AccordionTrigger className="text-lg font-bold text-[#405B35] flex items-center gap-2">
+            <span><Badge className="bg-[#405B35] text-white mr-1">i</Badge></span>
+            Détails du produit
+          </AccordionTrigger>
+          <AccordionContent className="px-2 pb-4">
+            <ul className="space-y-2 text-gray-700 text-base">
+              <li><strong>Matériaux:</strong> {product.materials || 'Non spécifié'}</li>
+              <li><strong>Dimensions:</strong> {product.dimensions || 'Non spécifié'}</li>
+            </ul>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="shipping">
+          <AccordionTrigger className="text-lg font-bold text-[#405B35] flex items-center gap-2">
+            <Truck className="inline h-5 w-5 text-[#405B35] mr-1" />
+            Livraison & Retours
+          </AccordionTrigger>
+          <AccordionContent className="space-y-4 text-gray-700 px-2 pb-4">
+            <div className="flex items-start gap-3">
+              <Truck className="h-5 w-5 mt-1 text-[#405B35]" />
+              <div>
+                <h4 className="font-semibold">Livraison Rapide</h4>
+                <p>Recevez votre commande sous 2 à 5 jours ouvrés.</p>
               </div>
-              <p className="text-gray-600 text-sm mb-2">
-                {product.artisan?.city || ''}{product.artisan?.city && product.artisan?.country ? ', ' : ''}{product.artisan?.country || ''}
-              </p>
-              {onArtisanShopClick && product.artisan?.shopName && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onArtisanShopClick}
-                  className="text-[#405B35] border-[#405B35] hover:bg-[#405B35] hover:text-white mb-2"
-                >
+            </div>
+            <div className="flex items-start gap-3">
+              <Undo className="h-5 w-5 mt-1 text-[#405B35]" />
+              <div>
+                <h4 className="font-semibold">Retours Faciles</h4>
+                <p>Retours acceptés sous 14 jours.</p>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      {/* Enhanced Seller Card */}
+      <Card className="bg-white rounded-2xl shadow-lg border border-gray-100 mt-8">
+        <CardContent className="p-6 flex flex-col sm:flex-row items-center gap-6">
+          <img src={product.artisan?.photo || '/placeholder.png'} alt={product.artisan?.name} className="w-20 h-20 rounded-full object-cover border-4 border-[#EDF0E0] shadow" />
+          <div className="flex-1 w-full">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Vendu par</p>
+                <h4 className="font-bold text-xl text-[#405B35] mb-1">{product.artisan?.name}</h4>
+                <p className="text-sm text-gray-600 mb-2">{product.artisan?.city}</p>
+              </div>
+              <Button variant="outline" onClick={onArtisanShopClick} className="border-[#405B35] text-[#405B35] hover:bg-[#405B35] hover:text-white font-semibold px-6 py-2 rounded-lg shadow-sm">
+                <ExternalLink className="h-4 w-4 mr-2" />
                   Voir la boutique
                 </Button>
-              )}
-              <Button
-                onClick={onContactArtisan}
-                className="bg-orange-500 hover:bg-orange-600 text-white"
-                size="sm"
-              >
-                <MessageCircle className="h-4 w-4 mr-2" />
+            </div>
+            <div className="border-t border-gray-200 my-4" />
+            <div className="flex gap-3">
+              <Button onClick={onContactArtisan} className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg flex items-center gap-2">
+                <Mail className="h-4 w-4" />
                 Contacter l'artisan
               </Button>
             </div>
           </div>
         </CardContent>
       </Card>
-
       {/* Social Share */}
       <SocialShare productName={product.name} />
-
-      {/* Delivery and Payment Info */}
-      <Card>
-        <CardContent className="p-4">
-          <h3 className="font-semibold text-gray-800 mb-3">Livraison & Paiement</h3>
-          <div className="space-y-2 text-sm text-gray-600">
-            <p><strong>Modes de livraison:</strong> Retrait en magasin, Livraison à domicile</p>
-            <p><strong>Délais:</strong> 2-5 jours ouvrés</p>
-            <p><strong>Frais de livraison:</strong> 2,500 FCFA (gratuit dès 50,000 FCFA)</p>
-            <p><strong>Paiement:</strong> Mobile Money, Carte bancaire, Espèces</p>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };

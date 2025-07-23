@@ -4,10 +4,11 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { FloatingCart } from '@/components/FloatingCart';
 import { ProductImageGallery } from '@/components/ProductImageGallery';
-import { ProductInfo } from '@/components/ProductInfo';
+import { ProductInfoMain, ProductDetailsSection } from '@/components/ProductInfo';
 import { ProductReviews } from '@/components/ProductReviews';
 import { RelatedProducts } from '@/components/RelatedProducts';
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbPage } from '@/components/ui/breadcrumb';
+import { ShieldCheck, Truck, Undo } from 'lucide-react';
 
 const BACKEND_URL = 'http://localhost:8000';
 
@@ -114,44 +115,56 @@ const ProductDetail = () => {
         </Breadcrumb>
 
         {/* Top Description */}
-        <div className="text-center mb-8 py-6 bg-white rounded-lg shadow-sm">
+        <div className="text-center mb-8 py-6 bg-white rounded-lg shadow-sm mt-20 md:mt-28 relative z-10">
           <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
             Découvrez tous les détails et l'histoire de ce produit artisanal unique, réalisé avec passion par nos créateurs locaux.
           </p>
         </div>
 
-        {/* Main Product Section */}
+        {/* Main Product Section (only image and main info) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <ProductImageGallery images={images} />
-          <ProductInfo 
-            product={product} 
+          {/* Left column: Image */}
+          <div>
+            <ProductImageGallery images={images} />
+          </div>
+          {/* Right column: Only main product info */}
+          <ProductInfoMain
+            product={product}
             onContactArtisan={handleContactArtisan}
             onArtisanShopClick={handleArtisanShopClick}
           />
         </div>
 
-        {/* Reviews Section */}
-        <ProductReviews
-          reviews={reviews}
-          productId={product.id}
-          averageRating={reviews.length ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length : 0}
-          totalReviews={reviews.length}
-          onReviewAdded={() => {
-            // Re-fetch reviews after submission
-            fetch(`${BACKEND_URL}/api/reviews/?product=${product.id}`)
-              .then(res => res.json())
-              .then(setReviews);
-          }}
+        {/* Product details, seller card, and social share as full-width section */}
+        <ProductDetailsSection
+          product={product}
+          onContactArtisan={handleContactArtisan}
+          onArtisanShopClick={handleArtisanShopClick}
         />
 
-        {/* Related Products */}
+        {/* Reviews and related products below */}
         <div className="space-y-12">
-          <RelatedProducts 
+          {/* Reviews Section */}
+          <ProductReviews
+            reviews={reviews}
+            productId={product.id}
+            averageRating={reviews.length ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length : 0}
+            totalReviews={reviews.length}
+            onReviewAdded={() => {
+              // Re-fetch reviews after submission
+              fetch(`${BACKEND_URL}/api/reviews/?product=${product.id}`)
+                .then(res => res.json())
+                .then(setReviews);
+            }}
+          />
+
+          {/* Related Products */}
+          <RelatedProducts
             title={product.artisan ? `Autres produits de ${product.artisan.name}` : 'Autres produits'}
             products={artisanProducts}
             onProductClick={handleProductClick}
           />
-          <RelatedProducts 
+          <RelatedProducts
             title="Produits similaires"
             products={relatedProducts}
             onProductClick={handleProductClick}

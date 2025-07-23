@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from './AuthContext'; // Import useAuth
 
 const BACKEND_URL = 'http://localhost:8000';
 
@@ -7,8 +8,15 @@ const CartContext = createContext<any>(null);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const { isAuthenticated } = useAuth(); // Get auth state
 
   const fetchCart = () => {
+    // Only fetch cart if authenticated
+    if (!isAuthenticated) {
+      setCartItems([]);
+      setTotalAmount(0);
+      return;
+    }
     fetch(`${BACKEND_URL}/api/cart/`, {
       credentials: 'include',
     })
@@ -20,7 +28,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       });
   };
 
-  // Add to cart function
+  const clearCart = () => {
+    setCartItems([]);
+    setTotalAmount(0);
+  };
+
   const addToCart = (productId: number, quantity = 1) => {
     fetch(`${BACKEND_URL}/api/cart/`, {
       method: 'POST',
@@ -33,11 +45,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    fetchCart();
-  }, []);
+    if (isAuthenticated) {
+      fetchCart();
+    } else {
+      clearCart();
+    }
+  }, [isAuthenticated]); // Re-run when auth state changes
 
   return (
-    <CartContext.Provider value={{ cartItems, totalAmount, fetchCart, addToCart }}>
+    <CartContext.Provider value={{ cartItems, totalAmount, fetchCart, addToCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

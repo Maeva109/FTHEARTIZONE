@@ -6,25 +6,25 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 const carouselImages = [
   {
     id: 1,
-    src: "/lovable-uploads/56ad55d4-63fc-4104-9c94-0a1dd4377792.png",
+    src: "/lovable-uploads/bijous.jpg",
     alt: "Formation en bijouterie",
     overlayText: "Bijouterie"
   },
   {
     id: 2,
-    src: "/lovable-uploads/7bc3fd40-75e4-4387-a5c3-373b6eb7e2db.png",
+    src: "/lovable-uploads/sculptures.jpg",
     alt: "Atelier de sculpture",
     overlayText: "Sculpture"
   },
   {
     id: 3,
-    src: "/lovable-uploads/89c3c52f-cca5-4bd1-a006-8f10a523c694.png",
+    src: "/lovable-uploads/artisanat collectif.jpg",
     alt: "Formation collective en tissage",
     overlayText: "Atelier collectif"
   },
   {
     id: 4,
-    src: "/lovable-uploads/0d3c0a64-d150-4c57-9aae-f319245d1283.png",
+    src: "/lovable-uploads/vannneri.jpg",
     alt: "Technique de vannerie",
     overlayText: "Vannerie"
   }

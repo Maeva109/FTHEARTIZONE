@@ -9,7 +9,7 @@ import { useFavorites } from '@/hooks/useFavorites';
 import { useAuth } from '@/context/AuthContext';
 import { FavoritesNotification } from './FavoritesNotification';
 
-const BACKEND_URL = 'http://localhost:8000';
+const BACKEND_URL = 'https://maekdm.pythonanywhere.com';
 
 export const ProductsSection = () => {
   const navigate = useNavigate();

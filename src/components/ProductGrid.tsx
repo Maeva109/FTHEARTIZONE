@@ -25,7 +25,7 @@ interface ProductGridProps {
   onProductClick: (productId: number) => void;
 }
 
-const BACKEND_URL = 'http://localhost:8000';
+const BACKEND_URL = 'https://maekdm.pythonanywhere.com';
 const getImageUrl = (img: string) => {
   if (!img) return '/placeholder.png'; // fallback image
   if (img.startsWith('http')) return img;

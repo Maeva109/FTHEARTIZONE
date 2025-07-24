@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
-const BACKEND_URL = 'http://localhost:8000';
+const BACKEND_URL = 'https://maekdm.pythonanywhere.com';
 
 export const CategoriesSection = () => {
   const navigate = useNavigate();

@@ -26,7 +26,7 @@ export const CatalogueMain = ({ filters, onFilterChange, onProductClick }: Catal
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let url = 'http://localhost:8000/api/products/';
+    let url = 'https://maekdm.pythonanywhere.com/api/products/';
     const params = [];
     if (filters.category) params.push(`category=${filters.category}`);
     if (filters.priceRange) {

@@ -42,7 +42,7 @@ export const ProductInfoMain = ({ product, onContactArtisan, onArtisanShopClick 
   const variants = product.variants ?? [];
   const [quantity, setQuantity] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(variants[0] || null);
-  const BACKEND_URL = 'http://localhost:8000';
+  const BACKEND_URL = 'https://maekdm.pythonanywhere.com';
   const [addToCartStatus, setAddToCartStatus] = useState<string | null>(null);
   const { fetchCart } = useCart();
 

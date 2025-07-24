@@ -6,18 +6,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 
-const BACKEND_URL = 'http://localhost:8000';
+const BACKEND_URL = 'https://maekdm.pythonanywhere.com';
 
 const getProductImage = (product: any) => {
   if (Array.isArray(product.images) && product.images.length > 0) {
     return product.images[0].startsWith('http')
       ? product.images[0]
-      : `http://localhost:8000${product.images[0]}`;
+      : `https://maekdm.pythonanywhere.com${product.images[0]}`;
   }
   if (typeof product.images === 'string' && product.images) {
     return product.images.startsWith('http')
       ? product.images
-      : `http://localhost:8000${product.images}`;
+      : `https://maekdm.pythonanywhere.com${product.images}`;
   }
   return '/placeholder.png';
 };

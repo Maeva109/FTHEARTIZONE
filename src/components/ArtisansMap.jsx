@@ -13,7 +13,7 @@ export default function ArtisansMap() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/artisans/stats/')
+    axios.get('https://maekdm.pythonanywhere.com/api/artisans/stats/')
       .then(res => setStats(res.data))
       .catch(() => setError('Erreur de chargement des statistiques.'));
   }, []);

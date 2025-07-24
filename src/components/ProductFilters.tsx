@@ -27,7 +27,7 @@ export const ProductFilters = ({ filters, onFilterChange }: ProductFiltersProps)
   const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/categories/')
+    fetch('https://maekdm.pythonanywhere.com/api/categories/')
       .then(res => res.json())
       .then(data => setCategories(Array.isArray(data) ? data : data.results || []))
       .catch(() => setCategories([]));
